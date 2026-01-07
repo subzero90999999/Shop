@@ -78,7 +78,7 @@ const renderProducts = (products) => {
           <a href="./pages/create/detal/detail.html?id=${product.id}" class="btn-more">Подробнее</a>
 
           <button class="btn-fav" data-id="${product.id}">
-            ${isFav ? "❤️" : "🤍"}
+            ${isFav ? "fav" : "nofav"}
           </button>
 
           <button class="btn-delete" data-id="${product.id}">
