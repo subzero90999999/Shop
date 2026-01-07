@@ -1,28 +1,46 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
-    <link rel="stylesheet" href="style.css" />
-  </head>
-  <body>
-    <header class="header">
-      <div class="container header-container">
-        <h2 class="header-title"><a href="./index.html">Shop</a></h2>
-        <a class="header-link" href="./pages/create/create.html">Create</a>
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Document</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+  <header class="header">
+    <div class="container header-container">
+      <h2 class="header-title"><a href="./index.html">Shop</a></h2>
+      <a class="header-link" href="./pages/create/create.html">Create</a>
+
+    </div>
+  </header>
+
+  <main>
+    <section class="cards">
+      <div class="container">
+        <button id="toggle-fav" class="btn-filter">Показать избранное</button>
+
+        <p id="loader" class="status-text">Loading...</p>
+        <p id="empty" class="status-text hidden">Пока нет товаров</p>
+
+        <div class="row"></div>
       </div>
-    </header>
 
-    <main>
-      <section class="cards">
-        <div class="container">
-          <div class="row"></div>
-        </div>
-      </section>
-<button class="btn-delete">Удалить</button>
-    </main>
+      <div class="container">
+        <button id="toggle-fav" class="btn-filter">Показать избранное</button>
 
-    <script src="./main.js"></script>
-  </body>
+        <p id="loader" class="status-text">Loading...</p>
+        <p id="empty" class="status-text hidden">Пока нет товаров</p>
+
+        <div class="row"></div>
+      </div>
+    </section>
+    <button class="btn-delete">Удалить</button>
+  </main>
+
+  <script src="./main.js"></script>
+</body>
+
 </html>
