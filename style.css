@@ -367,3 +367,44 @@ section {
 .favorite {
   border: 2px solid #ff4d6d;
 }
+.form-group select {
+  padding: 10px;
+  border-radius: 6px;
+  border: 1px solid #ced4da;
+  outline: none;
+}
+
+.form-group select:focus {
+  border-color: #007bff;
+}
+.status-badge {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  padding: 5px 10px;
+  font-size: 14px;
+  border-radius: 20px;
+  color: #fff;
+}
+
+.status-new {
+  background-color: #28a745;
+}
+
+.status-defective {
+  background-color: #dc3545;
+}
+
+.status-frequently_sold {
+  background-color: #fd7e14;
+}
+
+.card {
+  position: relative;
+}
+.status-filter {
+  margin-left: 15px;
+  padding: 10px 15px;
+  border-radius: 20px;
+  border: 1px solid #ccc;
+}

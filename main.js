@@ -2,15 +2,19 @@ const row = document.querySelector(".row");
 const loader = document.getElementById("loader");
 const empty = document.getElementById("empty");
 const toggleFavBtn = document.getElementById("toggle-fav");
+const statusFilter = document.getElementById("status-filter");
 
 let showOnlyFav = false;
+let selectedStatus = "";
 
+// ---------- FAVORITES ----------
 const getFavorites = () =>
   JSON.parse(localStorage.getItem("favoriteIds")) || [];
 
 const setFavorites = (ids) =>
   localStorage.setItem("favoriteIds", JSON.stringify(ids));
 
+// ---------- FETCH ----------
 const getData = async () => {
   loader.classList.remove("hidden");
   empty.classList.add("hidden");
@@ -34,12 +38,21 @@ const getData = async () => {
   }
 };
 
+// ---------- RENDER ----------
 const renderProducts = (products) => {
   const favoriteIds = getFavorites();
 
-  const filtered = showOnlyFav
-    ? products.filter((p) => favoriteIds.includes(p.id))
-    : products;
+  let filtered = products;
+
+  // избранное
+  if (showOnlyFav) {
+    filtered = filtered.filter((p) => favoriteIds.includes(p.id));
+  }
+
+  // статус
+  if (selectedStatus) {
+    filtered = filtered.filter((p) => p.status === selectedStatus);
+  }
 
   if (!filtered.length) {
     empty.classList.remove("hidden");
@@ -54,6 +67,11 @@ const renderProducts = (products) => {
 
     div.innerHTML = `
       <div class="card ${isFav ? "favorite" : ""}">
+        
+        <div class="status-badge status-${product.status}">
+          ${getStatusText(product.status)}
+        </div>
+
         <img src="${product.image}" />
 
         <h4 class="card-title" title="${product.title}">
@@ -75,10 +93,12 @@ const renderProducts = (products) => {
         <b>${product.price} KGS</b>
 
         <div class="card-buttons">
-          <a href="./pages/create/detal/detail.html?id=${product.id}" class="btn-more">Подробнее</a>
+          <a href="./pages/create/detal/detail.html?id=${product.id}" class="btn-more">
+            Подробнее
+          </a>
 
           <button class="btn-fav" data-id="${product.id}">
-            ${isFav ? "fav" : "nofav"}
+            ${isFav ? "❤️" : "🤍"}
           </button>
 
           <button class="btn-delete" data-id="${product.id}">
@@ -92,7 +112,10 @@ const renderProducts = (products) => {
   });
 };
 
-document.addEventListener("click", async (e) => {  if (e.target.classList.contains("btn-delete")) {
+// ---------- EVENTS ----------
+document.addEventListener("click", async (e) => {
+  // DELETE
+  if (e.target.classList.contains("btn-delete")) {
     const id = e.target.dataset.id;
 
     if (!confirm("Удалить товар?")) return;
@@ -104,27 +127,44 @@ document.addEventListener("click", async (e) => {  if (e.target.classList.contai
     getData();
   }
 
+  // FAVORITE
   if (e.target.classList.contains("btn-fav")) {
     const id = Number(e.target.dataset.id);
     let favs = getFavorites();
 
-    if (favs.includes(id)) {
-      favs = favs.filter((i) => i !== id);
-    } else {
-      favs.push(id);
-    }
+    favs = favs.includes(id)
+      ? favs.filter((i) => i !== id)
+      : [...favs, id];
 
     setFavorites(favs);
     getData();
   }
 });
 
-toggleFavBtn.addEventListener("click", () => {
+ toggleFavBtn.addEventListener("click", () => {
   showOnlyFav = !showOnlyFav;
   toggleFavBtn.textContent = showOnlyFav
     ? "Показать все"
     : "Показать избранное";
   getData();
 });
+
+statusFilter.addEventListener("change", (e) => {
+  selectedStatus = e.target.value;
+  getData();
+});
+
+ const getStatusText = (status) => {
+  switch (status) {
+    case "new":
+      return "🆕 Новый";
+    case "defective":
+      return "❌ Брак";
+    case "frequently_sold":
+      return "🔥 Хит";
+    default:
+      return "";
+  }
+};
 
 getData();
